@@ -1,0 +1,21 @@
+const express = require("express");
+const { getalluserNotes,
+        newNote,
+        updateNote,
+        getSingleNote,
+        deleteNote } = require("../controllers/notecontroller");
+const { isAuthenticated, authorizeRoles } = require("../middlewares/auth");
+
+const router =  express.Router();
+
+//all notes route
+router.route("/home").get(isAuthenticated ,authorizeRoles("admin") , getalluserNotes);
+//create note route
+router.route("/note/new").post(isAuthenticated, newNote);
+//update note route
+router.route("/note/:id").put(isAuthenticated, updateNote);
+//delete note route
+router.route("/note/:id").delete(isAuthenticated, deleteNote);  
+//get single note route
+router.route("/note/:id").get(isAuthenticated, getSingleNote);
+module.exports = router
